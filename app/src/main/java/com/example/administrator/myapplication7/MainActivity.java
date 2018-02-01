@@ -3,6 +3,7 @@ package com.example.administrator.myapplication7;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -30,11 +31,16 @@ public class MainActivity extends AppCompatActivity {
     }
 //Remainder of the class listing omitted for brevity
 @Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_reminders, menu);
+    return true;
+}
+@Override
 public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
         case R.id.action_new:
 //create new Reminder
-            Log.d(getLocalClassName(),"create new Reminder");
+            Log.d(getLocalClassName(),"create new Reminder22");
             return true;
         case R.id.action_exit:
             finish();
