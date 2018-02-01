@@ -47,9 +47,38 @@ public class MainActivity extends AppCompatActivity {
 // the cursorAdapter (controller) is now updating the listView (view)
 //with data from the db (model)
         mListView.setAdapter(mCursorAdapter);
-    }
-//Abbreviated for brevity
 
+    //Abbreviated for brevity
+
+        if (savedInstanceState == null) {
+//Clear all data
+            mDbAdapter.deleteAllReminders();
+//Add some data
+            insertSomeReminders("Buy Learn Android Studio", true);
+            insertSomeReminders("Send Dad birthday gift", false);
+            insertSomeReminders("Dinner at the Gage on Friday", false);
+            insertSomeReminders("String squash racket", false);
+            insertSomeReminders("Shovel and salt walkways", false);
+            insertSomeReminders("Prepare Advanced Android syllabus", true);
+            insertSomeReminders("Buy new office chair", false);
+            insertSomeReminders("Call Auto-body shop for quote", false);
+            insertSomeReminders("Renew membership to club", false);
+            insertSomeReminders("Buy new Galaxy Android phone", true);
+            insertSomeReminders("Sell old Android phone - auction", false);
+            insertSomeReminders("Buy new paddles for kayaks", false);
+            insertSomeReminders("Call accountant about tax returns", false);
+            insertSomeReminders("Buy 300,000 shares of Google", false);
+            insertSomeReminders("Call the Dalai Lama back", true);
+        }
+//Removed remaining method code for brevity...
+    }
+
+    private void insertSomeReminders(String name, boolean important) {
+        mDbAdapter.createReminder(name, important);
+    }
+
+
+//Removed remaining method code for brevity...
 
 
 //    private ListView mListView;
