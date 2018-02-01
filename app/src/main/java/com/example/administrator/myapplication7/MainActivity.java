@@ -1,14 +1,19 @@
 package com.example.administrator.myapplication7;
 
-import android.app.Activity;
+
+import android.app.Dialog;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
@@ -70,7 +75,42 @@ public class MainActivity extends AppCompatActivity {
             insertSomeReminders("Buy 300,000 shares of Google", false);
             insertSomeReminders("Call the Dalai Lama back", true);
         }
-//Removed remaining method code for brevity...
+//Removed remaining method code for brevity..
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(MainActivity.this, "clicked " + position,
+//                        Toast.LENGTH_SHORT).show();
+//                Log.d("loglog","create new Reminder22");
+//            }
+            public void onItemClick(AdapterView<?> parent, View view, final int masterListPosition, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                ListView modeListView = new ListView(MainActivity.this);
+                String[] modes = new String[] { "Edit Reminder", "Delete Reminder" };
+                ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(MainActivity.this,
+                        android.R.layout.simple_list_item_1, android.R.id.text1, modes);
+                modeListView.setAdapter(modeAdapter);
+                builder.setView(modeListView);
+                final Dialog dialog = builder.create();
+                dialog.show();
+                modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//edit reminder
+                        if (position == 0) {
+                            Toast.makeText(MainActivity.this, "edit "
+                                    + masterListPosition, Toast.LENGTH_SHORT).show();
+//delete reminder
+                        } else {
+                            Toast.makeText(MainActivity.this, "delete "
+                                    + masterListPosition, Toast.LENGTH_SHORT).show();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
     }
 
     private void insertSomeReminders(String name, boolean important) {
@@ -101,11 +141,11 @@ public class MainActivity extends AppCompatActivity {
 //        mListView.setAdapter(arrayAdapter);
 //    }
 ////Remainder of the class listing omitted for brevity
-//@Override
-//public boolean onCreateOptionsMenu(Menu menu) {
-//    getMenuInflater().inflate(R.menu.menu_reminders, menu);
-//    return true;
-//}
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_reminders, menu);
+    return true;
+}
 @Override
 public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
