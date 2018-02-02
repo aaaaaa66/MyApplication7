@@ -76,17 +76,23 @@ public class MainActivity extends AppCompatActivity {
             insertSomeReminders("Call the Dalai Lama back", true);
         }
 //Removed remaining method code for brevity..
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(MainActivity.this, "clicked " + position,
 //                        Toast.LENGTH_SHORT).show();
-//                Log.d("loglog","create new Reminder22");
+//        Log.d("loglog","create new Reminder22");
 //            }
-            public void onItemClick(AdapterView<?> parent, View view, final int masterListPosition, long id) {
+//        });
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+
+        {
+            @Override
+            public void onItemClick (AdapterView < ? > parent, View view,
+                                     final int masterListPosition, long id){
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 ListView modeListView = new ListView(MainActivity.this);
-                String[] modes = new String[] { "Edit Reminder", "Delete Reminder" };
+                String[] modes = new String[]{"Edit Reminder", "Delete Reminder"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
@@ -100,10 +106,12 @@ public class MainActivity extends AppCompatActivity {
                         if (position == 0) {
                             Toast.makeText(MainActivity.this, "edit "
                                     + masterListPosition, Toast.LENGTH_SHORT).show();
+                            Log.d("loglog1","create new Reminder11");
 //delete reminder
                         } else {
                             Toast.makeText(MainActivity.this, "delete "
                                     + masterListPosition, Toast.LENGTH_SHORT).show();
+                            Log.d("loglog2",masterListPosition+"");
                         }
                         dialog.dismiss();
                     }
@@ -111,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
+
+        }
 
     private void insertSomeReminders(String name, boolean important) {
         mDbAdapter.createReminder(name, important);
