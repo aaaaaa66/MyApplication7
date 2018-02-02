@@ -270,11 +270,24 @@ public boolean onCreateOptionsMenu(Menu menu) {
     return true;
 }
 @Override
+//public boolean onOptionsItemSelected(MenuItem item) {
+//    switch (item.getItemId()) {
+//        case R.id.action_new:
+////create new Reminder
+//            Log.d(getLocalClassName(),"create new Reminder22");
+//            return true;
+//        case R.id.action_exit:
+//            finish();
+//            return true;
+//        default:
+//            return false;
+//    }
+//}
 public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
         case R.id.action_new:
 //create new Reminder
-            Log.d(getLocalClassName(),"create new Reminder22");
+            fireCustomDialog(null);
             return true;
         case R.id.action_exit:
             finish();
