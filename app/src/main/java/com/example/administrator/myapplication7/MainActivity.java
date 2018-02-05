@@ -3,6 +3,7 @@ package com.example.administrator.myapplication7;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.database.Cursor;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
@@ -25,10 +26,14 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.sql.Date;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
+    Date today = new Date(2009-1900,3-1,9);
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
     @Override
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                      final int masterListPosition, long id){
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 ListView modeListView = new ListView(MainActivity.this);
-                String[] modes = new String[]{"Edit Reminder", "Delete Reminder"};
+                String[] modes = new String[]{"Edit Reminder", "Delete Reminder","Schedule Reminder"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
@@ -141,9 +146,16 @@ public class MainActivity extends AppCompatActivity {
                             Reminder reminder = mDbAdapter.fetchReminderById(nId);
                             fireCustomDialog(reminder);
 //delete reminder
-                        } else {
+                        }
+
+//
+                        else if (position == 0) {
                             mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
                             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
+                        } else {
+//                      Date today = new Date();
+
+                            new TimePickerDialog(MainActivity.this, null,today.getHours(), today.getMinutes(), false).show();
                         }
                         dialog.dismiss();
                     }
