@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-String sss=new String();
+
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
