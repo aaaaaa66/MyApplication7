@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -34,10 +35,14 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import java.sql.Date;
+import java.util.Calendar;
+
+import static java.util.Calendar.*;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
-
+    Calendar c = getInstance();
+    int   year   =   c.get(Calendar.YEAR);
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
     @Override
