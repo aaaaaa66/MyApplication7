@@ -42,7 +42,7 @@ import static java.util.Calendar.*;
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
     Calendar c = getInstance();
-    int   year   =   c.get(Calendar.YEAR);
+
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
     @Override
