@@ -41,7 +41,7 @@ import static java.util.Calendar.*;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
-    Calendar c = getInstance();
+
 
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+String sss=new String();
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
