@@ -42,7 +42,6 @@ import static java.util.Calendar.*;
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
 
-
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
     @Override
@@ -158,20 +157,24 @@ public class MainActivity extends AppCompatActivity {
                         }
 
 //
-                        else if (position == 0) {
-                            mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
-                            mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
-                        } else {
-//                      final Date today = new Date();
-                            final Date today = new Date(1900-3001, 0-11, 1-31);
-                            TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
-                                @Override
-                                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                                    Date alarm = new Date(today.getYear(), today.getMonth(), today.getDate());
-                                    scheduleReminder(alarm.getTime(), reminder.getContent());
-                                }
-                            };
-                            new TimePickerDialog(MainActivity.this, null,today.getHours(), today.getMinutes(), false).show();
+//                        else if (position == 0) {
+//                            mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
+//                            mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
+//                        } else {
+////                      final Date today = new Date();
+//                            final Date today = new Date(1900-3001, 0-11, 1-31);
+//                            TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+//                                @Override
+//                                public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+//                                    Date alarm = new Date(today.getYear(), today.getMonth(), today.getDate());
+//                                    scheduleReminder(alarm.getTime(), reminder.getContent());
+//                                }
+//                            };
+//                            new TimePickerDialog(MainActivity.this, null,today.getHours(), today.getMinutes(), false).show();
+//                        }
+                        else {
+                            Toast.makeText(.this, "delete "
+                                    + masterListPosition, Toast.LENGTH_SHORT).show();
                         }
                         dialog.dismiss();
                     }
