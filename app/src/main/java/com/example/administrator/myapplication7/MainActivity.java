@@ -44,7 +44,7 @@ import static java.util.Calendar.*;
 
 public class MainActivity extends AppCompatActivity {
     private ListView mListView;
-
+String str=new String();
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
     @Override
