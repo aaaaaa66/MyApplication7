@@ -67,13 +67,14 @@ public class RemindersDbAdapter {
                         COL_CONTENT, COL_IMPORTANT}, COL_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null
         );
-        if (cursor != null)
-            cursor.moveToFirst();
+        if (cursor.moveToFirst()){
+
         return new Reminder(
                 cursor.getInt(INDEX_ID),
                 cursor.getString(INDEX_CONTENT),
                 cursor.getInt(INDEX_IMPORTANT)
-        );
+        );}
+        return null;
     }
     public Cursor fetchAllReminders() {
         Cursor mCursor = mDb.query(TABLE_NAME, new String[]{COL_ID,
