@@ -34,7 +34,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.sql.Date;
+import java.util.*;
+
 import java.util.AbstractList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -208,36 +209,27 @@ String str=new String();
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                         int nId = getIdFromPosition(masterListPosition);
                         final Reminder reminder = mDbAdapter.fetchReminderById(nId);
+                        final Date today = new Date();
+                        TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                                Date alarm = new Date(today.getYear(), today.getMonth(), today.getDate(), hour,
+                                        minute);
+                                scheduleReminder(alarm.getTime(), reminder.getContent());
+                            }
+                        };
+
                         //edit reminder
                         if (position == 0) {
                             fireCustomDialog(reminder);
                             //delete reminder
-                        } else if (position == 0) {
+                        } else if (position == 1) {
                             mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
                             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
                         } else {
-                           final Calendar c = Calendar.getInstance();
-                            new TimePickerDialog(MainActivity.this,
-                                    // 绑定监听器
-                                    new TimePickerDialog.OnTimeSetListener() {
-
-                                        @Override
-                                        public void onTimeSet(TimePicker view,
-                                                              int hourOfDay, int minute) {
-//                                            TextView show = (TextView) findViewById(R.id.txt2);
-//                                            show.setText("您选择了：" + hourOfDay + "时" + minute
-//                                                    + "分");
-                                            c.set(Calendar.HOUR, hourOfDay);
-//                                        alarmTime.set(Calendar.MINUTE, minute);
-                                            scheduleReminder(c.getTimeInMillis(), reminder.getContent());                                       }
-                                    }
-                                    // 设置初始时间
-                                    , c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
-                                    // true表示采用24小时制
-                                    true).show();
+                            new TimePickerDialog(MainActivity.this, null, today.getHours(), today.getMinutes(), false).show();
                         }
                         dialog.dismiss();
                     }
