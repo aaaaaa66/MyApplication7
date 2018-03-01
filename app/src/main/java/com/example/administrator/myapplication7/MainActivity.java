@@ -229,7 +229,7 @@ String str=new String();
                             mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
                             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
                         } else {
-                            new TimePickerDialog(MainActivity.this, null, today.getHours(), today.getMinutes(), false).show();
+                            new TimePickerDialog(MainActivity.this,listener, today.getHours(), today.getMinutes(), false).show();
                         }
                         dialog.dismiss();
                     }
@@ -286,29 +286,7 @@ String str=new String();
     }
 
 
-//Removed remaining method code for brevity...
 
-
-//    private ListView mListView;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//        mListView = (ListView) findViewById(R.id.reminders_list_view);
-////The arrayAdatper is the controller in our
-////model-view-controller relationship. (controller)
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-////context
-//                this,
-////layout (view)
-//                R.layout.reminders_row,
-////row (view)
-//                R.id.row_text,
-////data (model) with bogus data to test our listview
-//                new String[]{"first record", "second record", "third record"});
-//        mListView.setAdapter(arrayAdapter);
-//    }
-////Remainder of the class listing omitted for brevity
 private void fireCustomDialog(final Reminder reminder){
 // custom dialog
     final Dialog dialog = new Dialog(this);
