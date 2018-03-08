@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import java.util.AbstractList;
@@ -44,7 +46,13 @@ import static android.app.AlarmManager.*;
 import static java.util.Calendar.*;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Date alarm;
     private ListView mListView;
+    private int mHour = 12;
+    private int mMinute = 30;
+    private int mSecond = 0;
+    String str1=new String();
 String str=new String();
     private RemindersDbAdapter mDbAdapter;
     private RemindersSimpleCursorAdapter mCursorAdapter;
@@ -62,6 +70,26 @@ String str=new String();
         mListView.setDivider(null);
         mDbAdapter = new RemindersDbAdapter(this);
         mDbAdapter.open();
+        if (savedInstanceState == null) {
+//Clear all data
+            mDbAdapter.deleteAllReminders();
+//Add some data
+            insertSomeReminders("Buy Learn Android Studio", true);
+            insertSomeReminders("Send Dad birthday gift", false);
+            insertSomeReminders("Dinner at the Gage on Friday", false);
+            insertSomeReminders("String squash racket", false);
+            insertSomeReminders("Shovel and salt walkways", false);
+            insertSomeReminders("Prepare Advanced Android syllabus", true);
+            insertSomeReminders("Buy new office chair", false);
+            insertSomeReminders("Call Auto-body shop for quote", false);
+            insertSomeReminders("Renew membership to club", false);
+            insertSomeReminders("Buy new Galaxy Android phone", true);
+            insertSomeReminders("Sell old Android phone - auction", false);
+            insertSomeReminders("Buy new paddles for kayaks", false);
+            insertSomeReminders("Call accountant about tax returns", false);
+            insertSomeReminders("Buy 300,000 shares of Google", false);
+            insertSomeReminders("Call the Dalai Lama back", true);
+        }
         Cursor cursor = mDbAdapter.fetchAllReminders();
 //from columns defined in the db
         String[] from = new String[]{
@@ -88,110 +116,8 @@ String str=new String();
 //with data from the db (model)
         mListView.setAdapter(mCursorAdapter);
 
-    //Abbreviated for brevity
+        //Abbreviated for brevity
 
-        if (savedInstanceState == null) {
-//Clear all data
-            mDbAdapter.deleteAllReminders();
-//Add some data
-            insertSomeReminders("Buy Learn Android Studio", true);
-            insertSomeReminders("Send Dad birthday gift", false);
-            insertSomeReminders("Dinner at the Gage on Friday", false);
-            insertSomeReminders("String squash racket", false);
-            insertSomeReminders("Shovel and salt walkways", false);
-            insertSomeReminders("Prepare Advanced Android syllabus", true);
-            insertSomeReminders("Buy new office chair", false);
-            insertSomeReminders("Call Auto-body shop for quote", false);
-            insertSomeReminders("Renew membership to club", false);
-            insertSomeReminders("Buy new Galaxy Android phone", true);
-            insertSomeReminders("Sell old Android phone - auction", false);
-            insertSomeReminders("Buy new paddles for kayaks", false);
-            insertSomeReminders("Call accountant about tax returns", false);
-            insertSomeReminders("Buy 300,000 shares of Google", false);
-            insertSomeReminders("Call the Dalai Lama back", true);
-        }
-//Removed remaining method code for brevity..
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(MainActivity.this, "clicked " + position,
-//                        Toast.LENGTH_SHORT).show();
-//        Log.d("loglog","create new Reminder22");
-//            }
-//        });
-
-
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-//
-//        {
-//            @Override
-//            public void onItemClick (AdapterView < ? > parent, View view,
-//                                     final int masterListPosition, long id){
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                    ListView modeListView = new ListView(MainActivity.this);
-//                    String[] modes = new String[]{"Edit Reminder", "Delete Reminder", "Schedule Reminder"};
-//                    ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(MainActivity.this,
-//                            android.R.layout.simple_list_item_1, android.R.id.text1, modes);
-//                    modeListView.setAdapter(modeAdapter);
-//                    builder.setView(modeListView);
-//                    final Dialog dialog = builder.create();
-//                    dialog.show();
-//                    modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        @Override
-////                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//////edit reminder
-////                        if (position == 0) {
-////                            Toast.makeText(MainActivity.this, "edit "
-////                                    + masterListPosition, Toast.LENGTH_SHORT).show();
-////                            Log.d("loglog1","create new Reminder11");
-//////delete reminder
-////                        } else {
-////                            Toast.makeText(MainActivity.this, "delete "
-////                                    + masterListPosition, Toast.LENGTH_SHORT).show();
-////                            Log.d("loglog2",masterListPosition+"");
-////                        }
-////
-////                        dialog.dismiss();
-////                    }
-//                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-////edit reminder
-//                            int nId = getIdFromPosition(masterListPosition);
-//                            final Reminder reminder = mDbAdapter.fetchReminderById(nId);
-//                            if (position == 0) {
-//                                fireCustomDialog(reminder);
-////delete reminder
-//                            } else if (position == 0) {
-//                                mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
-//                                mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
-//                            } else {
-////                      final Date today = new Date();
-////                            final Date today = new Date(1900-3001, 0-11, 1-31);
-//                                TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
-//                                    @Override
-//                                    public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-//                                        final Calendar alarmTime = Calendar.getInstance();
-//                                        alarmTime.set(Calendar.HOUR, hour);
-//                                        alarmTime.set(Calendar.MINUTE, minute);
-//                                        scheduleReminder(alarmTime.getTimeInMillis(), reminder.getContent());
-////                                    Date alarm = new Date(today.getYear(), today.getMonth(), today.getDate());
-////                                    scheduleReminder(alarm.getTime(), reminder.getContent());
-//                                    }
-//                                };
-//                                final Calendar today = Calendar.getInstance();
-//                                new TimePickerDialog(MainActivity.this, null, today.get(Calendar.HOUR), today.get(Calendar.MINUTE), false).show();
-////                            new TimePickerDialog(MainActivity.this, null,today.getHours(), today.getMinutes(), false).show();
-//                            }
-////                        else {
-////                            Toast.makeText(MainActivity.this, "delete "
-////                                    + masterListPosition, Toast.LENGTH_SHORT).show();
-////                        }
-////                        dialog.dismiss();
-//                        }
-//                    });
-//                }
-//            }
-//        });
 
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,7 +125,7 @@ String str=new String();
             public void onItemClick(AdapterView<?> parent, View view, final int masterListPosition, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 ListView modeListView = new ListView(MainActivity.this);
-                String[] modes = new String[]{"Edit Reminder", "Delete Reminder", "Schedule Reminder"};
+                String[] modes = new String[]{"Edit Reminder", "Delete Reminder","设定提醒"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(MainActivity.this,
                         android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
@@ -209,28 +135,48 @@ String str=new String();
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        int nId = getIdFromPosition(masterListPosition);
-                        final Reminder reminder = mDbAdapter.fetchReminderById(nId);
+
+                         Reminder reminder;
+                        reminder = mDbAdapter.fetchReminderById(getIdFromPosition(masterListPosition));
                         final Date today = new Date();
-                        TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                                Date alarm = new Date(today.getYear(), today.getMonth(), today.getDate(), hour,
-                                        minute);
-                                scheduleReminder(alarm.getTime(), reminder.getContent());
-                            }
-                        };
+//                      final Calendar c= Calendar.getInstance();
+//                        c.setTimeInMillis(System.currentTimeMillis());
+//                        int hour = c.get(Calendar.HOUR_OF_DAY);dddddddddddddddddd
+//                        int minute = c.get(Calendar.MINUTE);
 
                         //edit reminder
                         if (position == 0) {
                             fireCustomDialog(reminder);
+                           // System.out.print(""+reminder.getContent());
                             //delete reminder
                         } else if (position == 1) {
                             mDbAdapter.deleteReminderById(getIdFromPosition(masterListPosition));
+
                             mCursorAdapter.changeCursor(mDbAdapter.fetchAllReminders());
                         } else {
-                            new TimePickerDialog(MainActivity.this,listener, today.getHours(), today.getMinutes(), false).show();
-                        }
+
+
+                            new TimePickerDialog(MainActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                                @Override
+                                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                                    str1=String.valueOf(getIdFromPosition(masterListPosition));
+                                    System.out.println("dddddddddddddddddd"+str1);
+                                    mHour = hourOfDay;
+                                    mMinute = minute;
+                                    mSecond = 0;
+                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");//初始化Formatter的转换格式。
+
+
+                                    Date today = new Date();
+                                    alarm = new Date(today.getYear(), today.getMonth(), today.getDate(), mHour, mMinute);
+                                    String hms = formatter.format(alarm);
+
+                                    // mTextView.setText(mHour + ":" + mMinute);
+
+                                  // scheduleReminder(alarm.getTime(),reminder.getContent());
+                                   scheduleReminder(alarm.getTime(),str1);
+                                }
+                            }, today.getHours(), today.getMinutes(), true).show();                        }
                         dialog.dismiss();
                     }
                 });
@@ -363,11 +309,28 @@ public boolean onOptionsItemSelected(MenuItem item) {
             return false;
     }
 }
+
     private void scheduleReminder(long time, String content) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent alarmIntent = new Intent(this, ReminderAlarmReceiver.class);
-        alarmIntent.putExtra(ReminderAlarmReceiver.REMINDER_TEXT, content);
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-        alarmManager.set(RTC_WAKEUP, time, broadcast);
+        System.out.println("dddddddddddddddddd" + content);
+        //创建Intent对象，action为ELITOR_CLOCK，附加信息为字符串“你该打酱油了”
+        Intent intent = new Intent();
+        intent.putExtra("aa","aa");
+        intent.putExtra("aa",content);
+        intent.setClass(this, ReminderAlarmReceiver.class);
+
+
+
+//定义一个PendingIntent对象，PendingIntent.getBroadcast包含了sendBroadcast的动作。
+//也就是发送了action 为"ELITOR_CLOCK"的intent
+        PendingIntent pi = PendingIntent.getBroadcast(MainActivity.this,0,intent,0);
+
+//AlarmManager对象,注意这里并不是new一个对象，Alarmmanager为系统级服务
+        AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+//设置闹钟从当前时间开始，每隔5s执行一次PendingIntent对象pi，注意第一个参数与第二个参数的关系
+// 5秒后通过PendingIntent pi对象发送广播
+        // am.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),5*1000,pi);
+       // am.setRepeating(AlarmManager.RTC_WAKEUP,time,parseLong(null),pi);
+        am.set(AlarmManager.RTC_WAKEUP,time,pi);
     }
 }
